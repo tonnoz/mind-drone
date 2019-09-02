@@ -2,7 +2,7 @@
 Mind drone
 
 ## What is this?
-A simple [Express](https://expressjs.com/) application that allows you to interact with a ar-drone 2.0 with your mind (through a Neurosky EEG compatibile headset)
+A simple [Express](https://expressjs.com/) application that allows you to interact with a ar-drone 2.0 with your mind (through a Neurosky EEG compatibile headset).
   
   
   
@@ -34,7 +34,7 @@ npm install
 ## How to run
 
 1) Bind and connect your EEG device to the Blueetooth of your machine
-2) Turn Wear the EEG helmet
+2) Wear the EEG helmet and turn it on
 3) Plug in the battery to your AR Drone 2.0
 4) Connect your machine to the Wifi of the AR Drone 2.0 (open SSID)
 5) Launch from the root of the project:
@@ -48,7 +48,7 @@ npm start
 
 
 ## Safety
-Be sure to use the drone in area large enough and to be sure that the Keyboard commands works before trying using the mind control features.
+Be sure to use the drone in area large and high enough and check that the Keyboard commands work before enabling the mind control features.
   
   
 
