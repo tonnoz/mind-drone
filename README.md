@@ -7,11 +7,11 @@ A simple [Express](https://expressjs.com/) application that allows you to intera
   
   
 ### Features:
-- Takeoff or land via blinking
-- Use high level concetration to make a "wave" animation (a circle dance)
-- Use high level meditation level to make a "yaw spin" animation
+- Takeoff or land via eyes blinking
+- Use _high level concetration_ to make a "wave" animation (a circle dance)
+- Use _high level meditation_ to make a "yaw spin" animation
 - Browse your current EEG levels via a customizable graph (available on http://localhost:8080/index.html)
-- Control the drone from the pc keyboard
+- Control the drone from the keyboard
   
   
   
@@ -34,14 +34,13 @@ npm install
 ## How to run
 
 1) Bind and connect your EEG device to the Blueetooth of your machine
-2) Plug in the battery to your AR Drone 2.0
-3) Connect your machine to the Wifi of the AR Drone 2.0 (open SSID)
-4) Launch from the root of the project:
-
+2) Turn Wear the EEG helmet
+3) Plug in the battery to your AR Drone 2.0
+4) Connect your machine to the Wifi of the AR Drone 2.0 (open SSID)
+5) Launch from the root of the project:
 ```
 npm start
 ```
-5) Wear the EEG helmet
 6) Browse [http://localhost:8080/index.html](http://localhost:8080/index.html) to visualize your EEG live data.
 7) Have fun!
 
