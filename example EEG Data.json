@@ -1,0 +1,33 @@
+[
+{ poorSignalLevel: 200, status: 'scanning' },
+{ poorSignalLevel: 200, status: 'scanning' },
+{ poorSignalLevel: 200, status: 'scanning' },
+
+{ eSense: { attention: 75, meditation: 47 },
+  eegPower:
+   { delta: 27898,
+     theta: 8401,
+     lowAlpha: 842,
+     highAlpha: 1632,
+     lowBeta: 532,
+     highBeta: 2897,
+     lowGamma: 557,
+     highGamma: 1740 },
+  poorSignalLevel: 0 
+},
+
+{ eSense: { attention: 83, meditation: 53 },
+  eegPower:
+   { delta: 94586,
+     theta: 90532,
+     lowAlpha: 51543,
+     highAlpha: 20439,
+     lowBeta: 27360,
+     highBeta: 9018,
+     lowGamma: 2475,
+     highGamma: 2801 },
+  poorSignalLevel: 0 },
+
+{ blinkStrength: 68 } //only if blinking
+
+]

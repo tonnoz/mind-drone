@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="./extensions_files/jquery-ui.css">
+    <link type="text/css" rel="stylesheet" href="./extensions_files/graph.css">
+    <link type="text/css" rel="stylesheet" href="./extensions_files/detail.css">
+    <link type="text/css" rel="stylesheet" href="./extensions_files/legend.css">
+    <link type="text/css" rel="stylesheet" href="./extensions_files/extensions.css">
+
+    <script src="./extensions_files/d3.v3.js.download"></script>
+
+    <script src="./extensions_files/jquery.min.js.download"></script>
+    <script>
+        jQuery.noConflict();
+    </script>
+
+    <script src="./extensions_files/jquery-ui.min.js.download"></script>
+
+    <script src="./extensions_files/Rickshaw.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Class.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Compat.ClassList.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Renderer.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Renderer.Area.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Renderer.Line.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Renderer.Bar.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Renderer.ScatterPlot.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Renderer.Stack.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.RangeSlider.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.RangeSlider.Preview.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.HoverDetail.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Annotate.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Legend.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Axis.Time.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Behavior.Series.Toggle.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Behavior.Series.Order.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Behavior.Series.Highlight.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Smoother.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Fixtures.Time.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Fixtures.Time.Local.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Fixtures.Number.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Fixtures.RandomData.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Fixtures.Color.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Color.Palette.js.download"></script>
+    <script src="./extensions_files/Rickshaw.Graph.Axis.Y.js.download"></script>
+
+    <script src="./extensions_files/extensions.js.download"></script>
+</head>
+
+<body>
+    <div id="content">
+        <form id="side_panel">
+            <h1>EEG Data</h1>
+            <section>
+                <div id="legend" class="rickshaw_legend" style="height: 123px;">
+            </section>
+            <section>
+                <div id="renderer_form" class="toggler">
+                    <input type="radio" name="renderer" id="area" value="area" checked="">
+                    <label for="area">area</label>
+                    <input type="radio" name="renderer" id="bar" value="bar">
+                    <label for="bar">bar</label>
+                    <input type="radio" name="renderer" id="line" value="line">
+                    <label for="line">line</label>
+                    <input type="radio" name="renderer" id="scatter" value="scatterplot">
+                    <label for="scatter">scatter</label>
+                </div>
+            </section>
+            <section>
+                <div id="offset_form">
+                    <label for="stack">
+                        <input type="radio" name="offset" id="stack" value="zero" checked="">
+                        <span>stack</span>
+                    </label>
+                    <label for="stream">
+                        <input type="radio" name="offset" id="stream" value="wiggle">
+                        <span>stream</span>
+                    </label>
+                    <label for="pct">
+                        <input type="radio" name="offset" id="pct" value="expand">
+                        <span>pct</span>
+                    </label>
+                    <label for="value">
+                        <input type="radio" name="offset" id="value" value="value">
+                        <span>value</span>
+                    </label>
+                </div>
+                <div id="interpolation_form">
+                    <label for="cardinal">
+                        <input type="radio" name="interpolation" id="cardinal" value="cardinal" checked="">
+                        <span>cardinal</span>
+                    </label>
+                    <label for="linear">
+                        <input type="radio" name="interpolation" id="linear" value="linear">
+                        <span>linear</span>
+                    </label>
+                    <label for="step">
+                        <input type="radio" name="interpolation" id="step" value="step-after">
+                        <span>step</span>
+                    </label>
+                </div>
+            </section>
+            <section>
+                <h6>Smoothing</h6>
+                <div id="smoother" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><a
+                        class="ui-slider-handle ui-state-default ui-corner-all"
+                        href="https://tech.shutterstock.com/rickshaw/examples/extensions.html#" style="left: 0%;"></a>
+                </div>
+            </section>
+            <section></section>
+        </form>
+
+        <div id="chart_container">
+            <div id="chart" class="rickshaw_graph"></div>
+            <div id="timeline" class="rickshaw_annotation_timeline"></div>
+        </div>
+    </div>
+
+    <script>
+
+        // set up our data series with 150 random data points
+
+        var seriesData = [[], [], [], [], [], [], [], [], [], [], [], []];
+        // var random = new Rickshaw.Fixtures.RandomData(100);
+
+        // for (var i = 0; i < 5; i++) {
+        //     random.addData(seriesData);
+        // }
+
+        var palette = new Rickshaw.Color.Palette({ scheme: 'classic9' });
+
+        // instantiate our graph!
+
+        var graph = new Rickshaw.Graph({
+            element: document.getElementById("chart"),
+            width: 900,
+            height: 500,
+            renderer: 'line',
+            stroke: true,
+            preserve: true,
+            series: [
+                {
+                    color: palette.color(),
+                    data: seriesData[0],
+                    name: 'delta'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[1],
+                    name: 'theta'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[2],
+                    name: 'lowAlpha'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[3],
+                    name: 'highAlpha'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[4],
+                    name: 'lowBeta'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[5],
+                    name: 'highBeta'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[6],
+                    name: 'lowGamma'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[7],
+                    name: 'highGamma'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[8],
+                    name: 'poorSignalLevel'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[9],
+                    name: 'blinkStrength'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[10],
+                    name: 'attention'
+                }, {
+                    color: palette.color(),
+                    data: seriesData[11],
+                    name: 'meditation'
+                },
+            ]
+        });
+
+        graph.render();
+
+        var hoverDetail = new Rickshaw.Graph.HoverDetail({
+            graph: graph,
+            xFormatter: function (x) {
+                return new Date(x * 1000).toString();
+            }
+        });
+
+        var annotator = new Rickshaw.Graph.Annotate({
+            graph: graph,
+            element: document.getElementById('timeline')
+        });
+
+        var legend = new Rickshaw.Graph.Legend({
+            graph: graph,
+            element: document.getElementById('legend')
+
+        });
+
+        var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+            graph: graph,
+            legend: legend
+        });
+
+        var order = new Rickshaw.Graph.Behavior.Series.Order({
+            graph: graph,
+            legend: legend
+        });
+
+        var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
+            graph: graph,
+            legend: legend
+        });
+
+        var smoother = new Rickshaw.Graph.Smoother({
+            graph: graph,
+            element: document.querySelector('#smoother')
+        });
+
+        var ticksTreatment = 'glow';
+
+        var xAxis = new Rickshaw.Graph.Axis.Time({
+            graph: graph,
+            ticksTreatment: ticksTreatment,
+            timeFixture: new Rickshaw.Fixtures.Time.Local()
+        });
+
+        xAxis.render();
+
+        var yAxis = new Rickshaw.Graph.Axis.Y({
+            graph: graph,
+            tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+            ticksTreatment: ticksTreatment
+        });
+
+        yAxis.render();
+
+
+        var controls = new RenderControls({
+            element: document.querySelector('form'),
+            graph: graph
+        });
+
+        // add some data every so often
+
+        // setInterval(function () {
+        //     random.removeData(seriesData);
+        //     console.log(seriesData);
+        //     debugger;
+        //     random.addData(seriesData);
+        //     console.log(seriesData);
+        //     // seriesData = [[{x : ], [], [], [], [], [], [], [], [], [], [], []]
+        //     graph.update();
+
+        // }, 1000);
+
+
+        var source = new EventSource("liveEEGData");
+        source.onmessage = function(event) {
+            const parsed = JSON.parse(event.data);
+            //remove previous data
+            seriesData.forEach(
+                function(series) {
+                    if(series.length > 10) {
+                        series.shift();
+                    }
+                }
+            );
+            //add new data
+            seriesData.forEach(
+                function(series, index) {
+                    series.push(parsed[index]);
+                }
+            );
+           graph.update();
+        };
+        
+
+
+    </script>
