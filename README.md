@@ -1,5 +1,5 @@
 # mind-drone
-Mind drone presentation is [here](https://slides.com/tonnoz/mind-drone).
+The mind-drone presentation is [here](https://slides.com/tonnoz/mind-drone).
 
 ## What is this?
 A simple [Express](https://expressjs.com/) application that allows you to interact with a ar-drone 2.0 with your mind (through a Neurosky EEG compatibile headset).
