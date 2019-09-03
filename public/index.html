@@ -137,7 +137,7 @@
             element: document.getElementById("chart"),
             width: 900,
             height: 500,
-            renderer: 'line',
+            renderer: 'area',
             stroke: true,
             preserve: true,
             series: [
@@ -257,8 +257,8 @@
             graph: graph
         });
 
-        // add some data every so often
 
+        // simulate random data
         // setInterval(function () {
         //     random.removeData(seriesData);
         //     console.log(seriesData);
@@ -270,14 +270,14 @@
 
         // }, 1000);
 
-
+        //comment here to disable Serve Side vents
         var source = new EventSource("liveEEGData");
         source.onmessage = function(event) {
             const parsed = JSON.parse(event.data);
             //remove previous data
             seriesData.forEach(
                 function(series) {
-                    if(series.length > 10) {
+                    if(series.length > 11) {
                         series.shift();
                     }
                 }

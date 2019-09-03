@@ -1,177 +1,199 @@
 const arDrone = require('ar-drone');
-const readline = require('readline');
-
-
-//drone client
-const droneClient  = arDrone.createClient();
-var isFlying = false;
-
-//keyboard init
-readline.emitKeypressEvents(process.stdin);
-if(process.stdin.isTTY) {
-	process.stdin.setRawMode(true);
-}
- 
-//keyboard binding
-process.stdin.on('keypress', (str, key) => {
-
-  if (key && key.ctrl && key.name == 'c') {
-	quit();
-  }
-  if(key && key.name ==='space'){
-	takeOffOrLand();
-  }
-  if(key && key.name ==='w'){
-	wave();
-  }
-  if(key && key.name ==='up'){
-	front();
-  }
-  if(key && key.name ==='down'){
-	back();
-  }
-  if(key && key.name ==='left'){
-	left();
-  }
-  if(key && key.name ==='right'){
-	right();
-  }
-  if (key && key.shift && key.name == 'up') {
-	up();
-  }
-  if (key && key.shift && key.name == 'down') {
-	down();
-  }
-  if(key && key.name ==='i'){
-	yaw_left();
-  }
-  if(key && key.name ==='o'){
-	yaw_right();
-  }
-  if(key && key.name ==='x'){
-	calibrate();
-  }
-
+const droneClient = arDrone.createClient();
+droneClient.config('general:navdata_demo', 'FALSE'); //enable logging of navdata
+droneClient.on('navdata', (data) => {  //low battery indicator on console
+	if(data && data.demo && data.demo.batteryPercentage && data.demo.batteryPercentage < 31) {
+		console.log("drone battery level low:" + data.demo.batteryPercentage);
+	}
 });
 
+
+const INTERVAL_BEFORE_ACTION = 10;
+const INTERVAL_AFTER_ACTION = 1500;
+const ACTION_STRENGTH = 0.2; //a.k.a. pitch tilt
+
+var isDroneEnabled = true;
+var isFlying = false;
+
+
+
 function takeOffOrLand() {
+	if(!isDroneEnabled) return;
 	if (!isFlying) {
-		console.log("****************** taking off ******************\n");			
-		droneClient.takeoff();
+		takeoff();
 	} else {
-		console.log("****************** landing *********************\n");
-		droneClient.stop();
-		droneClient.land();
+		land();
 	}
-	isFlying = !isFlying;
 }
 
-function wave(){
+function wave() {
+	if(!isDroneEnabled) return;
 	console.log("****************** waving *********************\n");
 	droneClient.animate('wave', 500);
 }
 
-function calibrate(){
+function calibrate() {
+	if(!isDroneEnabled) return;
 	console.log("****************** calibrating *********************\n");
 	droneClient.calibrate(0);
 }
 
-function emergency(){
+function emergency() {
+	if(!isDroneEnabled) return;
 	console.log("****************** disable emergency *********************\n");
 	droneClient.disableEmergency();
 }
 
-function front(){
+function front() {
+	if(!isDroneEnabled) return;
 	console.log("****************** front *********************\n");
 	droneClient
-		.after(50, function() {
-			this.front(0.2);
-		}).after(300, function() {
+		.after(INTERVAL_BEFORE_ACTION, function () {
+			this.front(ACTION_STRENGTH);
+		}).after(INTERVAL_AFTER_ACTION, function () {
 			this.stop();
 		});
 }
 
-function back(){
+function back() {
+	if(!isDroneEnabled) return;
 	console.log("****************** back *********************\n");
 	droneClient
-		.after(50, function() {
-			this.back(0.2);
-		}).after(300, function() {
+		.after(INTERVAL_BEFORE_ACTION, function () {
+			this.back(ACTION_STRENGTH);
+		}).after(INTERVAL_AFTER_ACTION, function () {
 			this.stop();
 		});
 }
 
-function left(){
+function left() {
+	if(!isDroneEnabled) return;
 	console.log("****************** left *********************\n");
 	droneClient
-		.after(50, function() {
-			this.left(0.2);
-		}).after(300, function() {
+		.after(INTERVAL_BEFORE_ACTION, function () {
+			this.left(ACTION_STRENGTH);
+		}).after(INTERVAL_AFTER_ACTION, function () {
 			this.stop();
 		});
 }
 
-function right(){
+function right() {
+	if(!isDroneEnabled) return;
 	console.log("****************** right *********************\n");
 	droneClient
-		.after(50, function() {
-			this.right(0.2);
-		}).after(300, function() {
+		.after(INTERVAL_BEFORE_ACTION, function () {
+			this.right(ACTION_STRENGTH);
+		}).after(INTERVAL_AFTER_ACTION, function () {
 			this.stop();
 		});
 }
 
-function up(){
+function up() {
+	if(!isDroneEnabled) return;
 	console.log("****************** up *********************\n");
 	droneClient
-		.after(50, function() {
-			this.up(0.2);
-		}).after(300, function() {
+		.after(INTERVAL_BEFORE_ACTION, function () {
+			this.up(ACTION_STRENGTH);
+		}).after(INTERVAL_AFTER_ACTION, function () {
 			this.stop();
 		});
 }
 
-function down(){
+function down() {
+	if(!isDroneEnabled) return;
 	console.log("****************** down *********************\n");
 	droneClient
-		.after(50, function() {
-			this.down(0.2);
-		}).after(300, function() {
+		.after(INTERVAL_BEFORE_ACTION, function () {
+			this.down(ACTION_STRENGTH);
+		}).after(INTERVAL_AFTER_ACTION, function () {
 			this.stop();
 		});
 }
 
-function yaw_left(){
+function yaw_left() {
+	if(!isDroneEnabled) return;
 	console.log("****************** yaw_left *********************\n");
 	droneClient
-		.after(50, function() {
-			this.counterClockwise(0.2);
-		}).after(300, function() {
+		.after(INTERVAL_BEFORE_ACTION, function () {
+			this.counterClockwise(ACTION_STRENGTH);
+		}).after(INTERVAL_AFTER_ACTION, function () {
 			this.stop();
 		});
 }
 
-function yaw_right(){
+function yaw_right() {
+	if(!isDroneEnabled) return;
 	console.log("****************** yaw_right *********************\n");
 	droneClient
-		.after(50, function() {
-			this.clockwise(0.2);
-		}).after(300, function() {
+		.after(INTERVAL_BEFORE_ACTION, function () {
+			this.clockwise(ACTION_STRENGTH);
+		}).after(INTERVAL_AFTER_ACTION, function () {
 			this.stop();
 		});
 }
 
-function quit(){
-	console.log("****************** EXITING ******************\n");	  
-	process.stdin.pause();
-	isFlying = true;
-	takeOffOrLand();
-	process.exit(1);
+function isEnabled(){
+	return isDroneEnabled;
 }
+
+function enable(){
+	console.log("****************** enabled drone ******************\n");
+	isDroneEnabled = true;
+}
+
+function disable(){
+	console.log("****************** disabled drone ******************\n");
+	isDroneEnabled = false;
+}
+
+function takeoff(){
+	if(!isDroneEnabled) return;
+	console.log("****************** taking off ******************\n");
+	droneClient.takeoff();
+	isFlying = true;
+}
+
+function land(){
+	if(!isDroneEnabled) return;
+	console.log("****************** landing *********************\n");
+	droneClient.stop();
+	droneClient.land();
+	isFlying = false;
+}
+
+function onOffToggle(){
+	isDroneEnabled = !isDroneEnabled;
+	console.log("isDroneEnabled: " + isDroneEnabled);
+}
+
+function fireLeds(){
+	if(!isDroneEnabled) return;
+	console.log("****************** blinking leds *********************\n");
+	droneClient.animateLeds('fire', 6, 3);
+}
+
+
 
 
 module.exports = {
 	wave: wave,
 	takeOffOrLand: takeOffOrLand,
-	calibrate: calibrate
+	calibrate: calibrate,
+	isEnabled : isEnabled,
+	disableEmergencyMode : emergency,
+	enable : enable,
+	disable : disable,
+	yaw_left : yaw_left,
+	yaw_right: yaw_right,
+	altitude_down : down,
+	altitude_up : up,
+	left : left,
+	right : right,
+	front : front,
+	back : back,
+	land: land,
+	takeoff: takeoff,
+	onOffToggle : onOffToggle,
+	fireLeds: fireLeds
+
 };
