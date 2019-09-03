@@ -8,10 +8,11 @@ A simple [Express](https://expressjs.com/) application that allows you to intera
   
 ### Features:
 - Takeoff or land via eyes blinking
-- Use _high level concetration_ to make a "wave" animation (a circle dance)
-- Use _high level meditation_ to make a "yaw spin" animation
+- Use _high level attention to make a "fire led" animation 
+- Use _high level meditation_ to make a "wave" flying evolution (a circle dance)
 - Browse your current EEG levels via a customizable graph (available on http://localhost:8080/index.html)
-- Control the drone from the keyboard
+- Fully control the drone from the keyboard
+- Enable/disable/toggle features from Keyboard (EEG/DRONE)
   
   
   
