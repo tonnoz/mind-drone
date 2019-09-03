@@ -14,6 +14,7 @@ if(process.stdin.isTTY) {
  
 //keyboard binding
 process.stdin.on('keypress', (str, key) => {
+
   if (key && key.ctrl && key.name == 'c') {
 	quit();
   }
@@ -41,10 +42,10 @@ process.stdin.on('keypress', (str, key) => {
   if (key && key.shift && key.name == 'down') {
 	down();
   }
-  if(key && key.name ===','){
+  if(key && key.name ==='i'){
 	yaw_left();
   }
-  if(key && key.name ==='.'){
+  if(key && key.name ==='o'){
 	yaw_right();
   }
   if(key && key.name ==='x'){
@@ -82,43 +83,82 @@ function emergency(){
 
 function front(){
 	console.log("****************** front *********************\n");
-	droneClient.front(0.1);
+	droneClient
+		.after(50, function() {
+			this.front(0.2);
+		}).after(300, function() {
+			this.stop();
+		});
 }
 
 function back(){
 	console.log("****************** back *********************\n");
-	droneClient.back(0.1);
+	droneClient
+		.after(50, function() {
+			this.back(0.2);
+		}).after(300, function() {
+			this.stop();
+		});
 }
 
 function left(){
 	console.log("****************** left *********************\n");
-	droneClient.left(0.1);
+	droneClient
+		.after(50, function() {
+			this.left(0.2);
+		}).after(300, function() {
+			this.stop();
+		});
 }
 
 function right(){
 	console.log("****************** right *********************\n");
-	droneClient.right(0.1);
+	droneClient
+		.after(50, function() {
+			this.right(0.2);
+		}).after(300, function() {
+			this.stop();
+		});
 }
 
 function up(){
 	console.log("****************** up *********************\n");
-	droneClient.up(0.1);
+	droneClient
+		.after(50, function() {
+			this.up(0.2);
+		}).after(300, function() {
+			this.stop();
+		});
 }
 
 function down(){
 	console.log("****************** down *********************\n");
-	droneClient.down(0.1);
+	droneClient
+		.after(50, function() {
+			this.down(0.2);
+		}).after(300, function() {
+			this.stop();
+		});
 }
-
 
 function yaw_left(){
 	console.log("****************** yaw_left *********************\n");
-	droneClient.counterClockwise(0.1);
+	droneClient
+		.after(50, function() {
+			this.counterClockwise(0.2);
+		}).after(300, function() {
+			this.stop();
+		});
 }
 
 function yaw_right(){
 	console.log("****************** yaw_right *********************\n");
-	droneClient.clockwise(0.1);
+	droneClient
+		.after(50, function() {
+			this.clockwise(0.2);
+		}).after(300, function() {
+			this.stop();
+		});
 }
 
 function quit(){

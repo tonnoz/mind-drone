@@ -20,17 +20,19 @@ module.exports = {
 	
 		eegClient.on('data', function(data) {
 			PubSub.publish('eeg', data); //send raw data to 'eeg' topic
+
 			if(data.blinkStrength && data.blinkStrength >= BLINK_STRENGTH_THRESHOLD && !recently_takeOffOrLand) {
 				setTimeout(function(){recently_takeOffOrLand = false}, MIN_INTERVAL_ACTION);
 				recently_takeOffOrLand = true;
 				drone.takeOffOrLand();
-			}else{
-				if(data.eSense.attention && data.eSense.attention >= ATTENTION_STRENGTH_THRESHOLD && !recently_waved){
-					setTimeout(function(){recently_takeOffOrLand = false}, MIN_INTERVAL_ACTION);
-					recently_takeOffOrLand = true;
-					drone.wave();
-				}
 			}
+
+			if(data.eSense.attention && data.eSense.attention >= ATTENTION_STRENGTH_THRESHOLD && !recently_waved){
+				setTimeout(function(){recently_takeOffOrLand = false}, MIN_INTERVAL_ACTION);
+				recently_takeOffOrLand = true;
+				drone.wave();
+			}
+
 		});
 	
 		return eegClient;

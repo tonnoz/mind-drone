@@ -15,6 +15,7 @@
      highGamma: 1740 },
   poorSignalLevel: 0 
 },
+{ blinkStrength: 68 }
 
 { eSense: { attention: 83, meditation: 53 },
   eegPower:

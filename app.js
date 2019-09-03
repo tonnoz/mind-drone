@@ -4,39 +4,38 @@ const eegDevice = require('./libs/eeglib');
 const sse = require('connect-sse')();
 const PubSub = require('pubsub-js');
 var resp;
-
-
-
-
-
-//*********** START HERE ***********
-
+var EEG_ENABLED = false
 const eegClient = eegDevice.eegClient();
-// eegClient.connect();
+
+
+
+
+
+if(EEG_ENABLED){
+	eegClient.connect();
+}
 startExpress();
 
-//*********** END HERE ***********
 
 
 
 var mySubscriber = function (msg, data) {
 	console.log("RAW DATA RECEIVED:");
-	console.log( msg, data );
-	console.log( "\n");
+	console.log(msg, data);
+	console.log("\n");
 
 	const dataToSend = prepareDataToSend(data);
 	
-	console.log("SENDING client:");
+	console.log("SENDING data to client:");
 	console.log(JSON.stringify(dataToSend) + "\n");
 
 	if(resp) {
 		resp.json(dataToSend);
-		console.log("Message sent correctly to subscriber.\n");
+		console.log("Message sent correctly to subscriber. \n");
 	}else{
 		console.log("There are no subscribers at the moment, skipping.\n");
 	}
 };
-
 
 PubSub.subscribe('eeg', mySubscriber);
 
@@ -77,10 +76,15 @@ function startExpress() {
 	const EXPRESS_PORT = 8080;
 	const app = express();
 	// app.use(express.static(path.join(__dirname,'public')));
+
+	//expose public folder
 	app.use(express.static('public'))
+
+	//expose S.S.E. endpoint for live EEG data stream
 	app.get('/liveEEGData', sse, function (req, res) {
 		resp = res; // expose response to global scope
 	});
+
 	app.listen(EXPRESS_PORT, function () {
 		console.log("Application running at Port " + EXPRESS_PORT);
 	});
