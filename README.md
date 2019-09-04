@@ -33,19 +33,31 @@ npm install
   
   
 ## How to run
-
+0) Install [NeuroSky ThinkGear Connector for Windows/Mac](http://developer.neurosky.com/docs/doku.php?id=mdt2.5). For Linux see instructions below.
 1) Bind and connect your EEG device to the Blueetooth of your machine
 2) Wear the EEG helmet and turn it on
 3) Plug in the battery to your AR Drone 2.0
 4) Connect your machine to the Wifi of the AR Drone 2.0 (open SSID)
-5) Launch from the root of the project:
+5) From the root of the project, launch:
 ```
 npm start
 ```
 6) Browse [http://localhost:8080/index.html](http://localhost:8080/index.html) to visualize your EEG live data.
-7) Have fun!
+7) Use Keyboard binding from terminal to control the drone
 
 
+### Linux
+
+Connecting to the Mindwave from Ubuntu or any other Linux-based OS can be done entirely from the command line using [Gort](http://gort.io) commands.
+Here are the steps:
+
+Find the address of the EEG device, by using:
+
+    $ gort scan bluetooth
+
+Pair/Connect to Mindwave using this command (substituting the actual address of your EEG Device):
+
+    $ gort bluetooth connect <address>
 
 
 ## Safety
