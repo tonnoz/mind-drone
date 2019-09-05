@@ -3,7 +3,7 @@ Flying a drone with your mind? Is it possible?
 Start with [the presentation.](https://slides.com/tonnoz/mind-drone).
 
 ## What is this?
-A simple [Express](https://expressjs.com/) application that allows you to interact with a Parrot AR-Drone 2.0 with your mind (through a Neurosky EEG compatibile headset).
+A simple [Express](https://expressjs.com/) application that allows you to interact with a Parrot AR-Drone 2.0 with your mind (through a Neurosky EEG compatibile headset). The client to interact with the drone is [Node AR Drone](https://github.com/felixge/node-ar-drone).
   
   
   
